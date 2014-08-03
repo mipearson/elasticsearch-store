@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Elasticsearch::Store::VERSION
   spec.authors       = ["Michael Pearson"]
   spec.email         = ["mipearson@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{ElasticSearch-backed Ruby on Rails cache.}
+  spec.description   = %q{}
+  spec.homepage      = "http://github.com/mipearson/elasticsearch-store"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
