@@ -1,5 +1,7 @@
 # Elasticsearch::Store
 
+[![Build Status](https://travis-ci.org/mipearson/elasticsearch-store.svg)](https://travis-ci.org/mipearson/elasticsearch-store) [![Code Climate](https://codeclimate.com/github/mipearson/elasticsearch-store/badges/gpa.svg)](https://codeclimate.com/github/mipearson/elasticsearch-store)
+
 TODO: Write a gem description
 
 ## Installation

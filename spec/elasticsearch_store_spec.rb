@@ -19,7 +19,6 @@ describe ActiveSupport::Cache::ElasticsearchStore do
 
     it "should default to localhost:9200" do
       expect(Elasticsearch::Client).to receive(:new).with(addresses: %w(localhost:9200))
-
       ActiveSupport::Cache::ElasticsearchStore.new
     end
 

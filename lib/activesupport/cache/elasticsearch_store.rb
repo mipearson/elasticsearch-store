@@ -37,6 +37,7 @@ module ActiveSupport
         options = addresses.extract_options!
 
         es_options = options.extract!(:retry_on_failure, :randomize_hosts, :reload_connections)
+        es_options.delete_if { |k, v| v.nil? }
         @index_name = options.delete(:index_name) || 'cache'
 
         if options[:namespace]
@@ -80,6 +81,8 @@ module ActiveSupport
         request = { value: entry.value }
         if entry.expires_at
           expires_in = (entry.expires_at - Time.now.to_f) * 1000
+          # If we somehow manage to get a negative expires, force it to 1ms
+          # as ES will crack it otherwise.
           request[:_ttl] = [expires_in, 1].max
         end
 
