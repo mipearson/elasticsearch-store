@@ -1,6 +1,6 @@
 # Elasticsearch::Store
 
-[![Build Status](https://travis-ci.org/mipearson/elasticsearch-store.svg)](https://travis-ci.org/mipearson/elasticsearch-store) [![Code Climate](https://codeclimate.com/github/mipearson/elasticsearch-store/badges/gpa.svg)](https://codeclimate.com/github/mipearson/elasticsearch-store)
+[![Gem Version](https://badge.fury.io/rb/elasticsearch-store.svg)](http://badge.fury.io/rb/elasticsearch-store) [![Build Status](https://travis-ci.org/mipearson/elasticsearch-store.svg)](https://travis-ci.org/mipearson/elasticsearch-store) [![Code Climate](https://codeclimate.com/github/mipearson/elasticsearch-store/badges/gpa.svg)](https://codeclimate.com/github/mipearson/elasticsearch-store)
 
 ElasticSearch-backed Ruby on Rails cache.
 
