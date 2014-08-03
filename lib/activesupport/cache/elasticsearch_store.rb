@@ -56,7 +56,7 @@ module ActiveSupport
       # be used with care when shared cache is being used.
       def clear(_options = nil)
         # TODO: Support namespaces
-        @client.delete_by_query index: @index_name
+        @client.delete_by_query index: @index_name, type: 'entry', body: { query: { match_all: {} } }
       end
 
       protected
@@ -64,11 +64,12 @@ module ActiveSupport
       def read_entry(key, options) # :nodoc:
         document = @client.get index: @index_name, type: 'entry', fields: %w(_ttl _source), id: key
 
-        expires_in = nil
-        expires_in = document['_ttl'] / 1000 if document.key? '_ttl'
+        fields = document['fields'] || {}
+        source = document['_source'] || {}
+        expires_in = (fields['_ttl'].to_f / 1000.0) if fields.key? '_ttl'
 
         Entry.new(
-          document["_source"]["value"],
+          source["value"],
           options.merge(expires_in: expires_in)
         )
       rescue Elasticsearch::Transport::Transport::Errors::NotFound
@@ -78,8 +79,8 @@ module ActiveSupport
       def write_entry(key, entry, _options) # :nodoc:
         request = { value: entry.value }
         if entry.expires_at
-          expires_in = entry.expires_at - Time.now
-          request[:_ttl] = "#{expires_in}s"
+          expires_in = (entry.expires_at - Time.now.to_f) * 1000
+          request[:_ttl] = [expires_in, 1].max
         end
 
         @client.index index: @index_name, type: 'entry', id: key, body: request

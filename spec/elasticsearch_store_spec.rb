@@ -30,12 +30,31 @@ describe ActiveSupport::Cache::ElasticsearchStore do
 
   context "with an active store" do
     let(:store) { ActiveSupport::Cache::ElasticsearchStore.new(index_name: index_name) }
-    after { store.clear rescue nil }
+    after do
+      # rubocop:disable Style/RescueModifier
+      Elasticsearch::Client.new.indices.delete index: index_name
+    end
 
     it "should store and retrive a cache entry" do
       expect(store.read("hello")).to be_nil
       store.write("hello", "sup")
       expect(store.read("hello")).to eq("sup")
     end
+
+    it "should expire cache entries" do
+      store.write("hi", "there", expires_in: 0.5)
+      expect(store.read("hi")).to eq("there")
+      sleep 1
+      expect(store.read("hi")).to be_nil
+    end
+
+    it "should allow clearing the entire cache" do
+      store.write("hello", "there")
+      store.write("good", "bye")
+      store.clear
+      expect(store.read('hello')).to be_nil
+      expect(store.read('good')).to be_nil
+    end
+
   end
 end
